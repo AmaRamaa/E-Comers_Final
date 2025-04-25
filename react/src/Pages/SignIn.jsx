@@ -18,6 +18,8 @@ const Login = () => {
         const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
             email,
             password,
+            Phone,
+            username,
         });
 
         if (loginError) {
