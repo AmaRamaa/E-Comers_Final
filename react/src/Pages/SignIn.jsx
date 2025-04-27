@@ -15,11 +15,9 @@ const Login = () => {
         e.preventDefault();
         const { email, password } = form;
 
-        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+        const { error: loginError } = await supabase.auth.signInWithPassword({
             email,
             password,
-            Phone,
-            username,
         });
 
         if (loginError) {
@@ -29,7 +27,9 @@ const Login = () => {
             alertDiv.style.zIndex = '1050';
             alertDiv.textContent = `Error logging in: ${loginError.message}`;
             document.body.appendChild(alertDiv);
-
+            
+            // localStorage.setItem('userInfo', JSON.stringify(userInfo)); // Removed from here
+            
             setTimeout(() => {
             alertDiv.remove();
             }, 5000);
@@ -40,7 +40,11 @@ const Login = () => {
             alertDiv.style.zIndex = '1050';
             alertDiv.textContent = 'Login successful!';
             document.body.appendChild(alertDiv);
-
+            window.location.href = '/profile';
+            // Store user information in localStorage
+            localStorage.setItem('userEmail', email);
+            
+            // User information can be stored here if needed in the future
             setTimeout(() => {
             alertDiv.remove();
             }, 5000);

@@ -22,7 +22,7 @@ const SignUp = () => {
         console.log(e);
         console.log({ name: form.name, email: form.email, phone: form.phone, password: form.password });
         const { name, email, phone, password } = form;
-        const { data: signUpData, error: signUpError } = 
+        const { error: signUpError } = 
         await supabase.auth.signUp(
             { email, password },
             { data: { name, phone } }
@@ -35,9 +35,9 @@ const SignUp = () => {
             alertDiv.style.zIndex = '1050';
             alertDiv.textContent = `Error signing up: ${signUpError.message}`;
             document.body.appendChild(alertDiv);
-
+            // Store user information in localStorage
             setTimeout(() => {
-            alertDiv.remove();
+                alertDiv.remove();
             }, 5000);
         } else {
             const alertDiv = document.createElement('div');
@@ -46,7 +46,8 @@ const SignUp = () => {
             alertDiv.style.zIndex = '1050';
             alertDiv.textContent = 'Sign-up successful!';
             document.body.appendChild(alertDiv);
-
+            
+            window.location.href = '/signin';
             setTimeout(() => {
             alertDiv.remove();
             }, 1000);
@@ -127,6 +128,7 @@ const SignUp = () => {
                     </label>
                     <div className="input-group">
                         <input
+                            type={showPassword ? 'text' : 'password'}
                             id="password"
                             name="password"
                             placeholder="Enter Password"
