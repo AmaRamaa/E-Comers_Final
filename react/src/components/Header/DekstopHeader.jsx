@@ -4,10 +4,10 @@ import SubNav from './SubNav';
 
 const DesktopHeader = () => {
     return (
-        <header>
+        <>
             <HeaderTop />
             <SubNav />
-        </header>
+        </>
     );
 };
 

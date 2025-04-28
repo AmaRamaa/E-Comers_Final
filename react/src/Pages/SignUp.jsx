@@ -7,56 +7,55 @@ import { supabase } from '../db/supabaseClient';
 import './SignUp.css';
 
 const SignUp = () => {
-    const [form, setForm] = useState({name: '', email: '', phone: '', password: ''});
-
+    const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
 
     const [showPassword, setShowPassword] = useState(false);
-    // Removed unused state variables
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e);
-        console.log({ name: form.name, email: form.email, phone: form.phone, password: form.password });
         const { name, email, phone, password } = form;
-        const { error: signUpError } = 
-        await supabase.auth.signUp(
-            { email, password },
-            { data: { name, phone } }
-        );
+
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: { name, phone }
+            }
+        });
 
         if (signUpError) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-danger position-fixed top-50 start-50 translate-middle';
-            alertDiv.role = 'alert';
-            alertDiv.style.zIndex = '1050';
-            alertDiv.textContent = `Error signing up: ${signUpError.message}`;
-            document.body.appendChild(alertDiv);
-            // Store user information in localStorage
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 5000);
-        } else {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'alert alert-success position-fixed top-50 start-50 translate-middle';
-            alertDiv.role = 'alert';
-            alertDiv.style.zIndex = '1050';
-            alertDiv.textContent = 'Sign-up successful!';
-            document.body.appendChild(alertDiv);
-            
-            window.location.href = '/signin';
-            setTimeout(() => {
-            alertDiv.remove();
-            }, 1000);
+            showAlert(`Error signing up: ${signUpError.message}`, 'danger');
+            return;
         }
+
+        const user = signUpData.user;
+        if (!user) {
+            showAlert('No user returned from signup.', 'danger');
+            return;
+        }
+
+        const { error: insertError } = await supabase
+            .from('Users')
+            .insert([{ id: user.id, username: name, email, phone }]);
+
+        if (insertError) {
+            showAlert(`Error saving user data: ${insertError.message}`, 'danger');
+            return;
+        }
+
+        showAlert('Sign-up successful!', 'success');
+
+        setTimeout(() => {
+            window.location.href = '/signin';
+        }, 1000);
     };
 
     const onChange = (e) => {
         if (typeof e === 'string') {
-            // Handle PhoneInput change
             setForm((prevForm) => ({
                 ...prevForm,
                 phone: e,
@@ -70,6 +69,17 @@ const SignUp = () => {
         }
     };
 
+    const showAlert = (message, type = 'success') => {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} position-fixed top-50 start-50 translate-middle`;
+        alertDiv.role = 'alert';
+        alertDiv.style.zIndex = '1050';
+        alertDiv.textContent = message;
+        document.body.appendChild(alertDiv);
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 3000);
+    };
 
     return (
         <div className="container mt-5" style={{ maxWidth: '400px' }}>
@@ -79,13 +89,13 @@ const SignUp = () => {
             <form onSubmit={handleSubmit} style={{ border: '1px dashed #123ddd', padding: '20px', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label" style={{ fontWeight: '500' }}>
-                        Username
+                        Full Name
                     </label>
                     <input
                         type="text"
                         id="name"
                         name="name"
-                        placeholder="Enter Username"
+                        placeholder="Enter your full name"
                         className="form-control"
                         value={form.name}
                         onChange={onChange}
@@ -100,7 +110,7 @@ const SignUp = () => {
                     <input
                         type="email"
                         id="email"
-                        placeholder="Enter Email"
+                        placeholder="Enter your email"
                         className="form-control"
                         value={form.email}
                         onChange={onChange}
@@ -113,13 +123,12 @@ const SignUp = () => {
                         Phone Number
                     </label>
                     <PhoneInput
-                        placeholder="Enter phone number"
+                        placeholder="Enter your phone number"
                         value={form.phone}
                         onChange={onChange}
                         defaultCountry="XK"
                         style={{ borderRadius: '8px', padding: '10px' }}
                         required
-                        // className='form-control'
                     />
                 </div>
                 <div className="mb-3">
@@ -131,7 +140,7 @@ const SignUp = () => {
                             type={showPassword ? 'text' : 'password'}
                             id="password"
                             name="password"
-                            placeholder="Enter Password"
+                            placeholder="Enter your password"
                             className="form-control"
                             value={form.password}
                             onChange={onChange}

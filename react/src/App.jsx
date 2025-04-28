@@ -1,5 +1,6 @@
 import Header from './components/Header/DekstopHeader';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
 import Products from './Pages/Products';
 import Home from './Pages/Home';
 import About from './Pages/About';
@@ -15,6 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginSuccess from './Pages/LoginSuccess';
 
 function App() {
+  // React.useEffect(() => {
+  //   localStorage.setItem('userEmail', 'none');
+  // }, []);
   return (
     <Router>
       <Header />

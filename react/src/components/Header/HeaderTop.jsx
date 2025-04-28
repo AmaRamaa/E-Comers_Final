@@ -1,11 +1,25 @@
 import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import Logo from "../../assets/svg/Logo.svg";
 
 const Header = () => {
+    const location = useLocation();
+
+    const getLinkClass = (path) => (
+        location.pathname === path ? "text-dark fw-bold" : "text-muted"
+    );
+
     return (
-        <header className="bg-white shadow-sm">
+        <header
+            className="bg-white shadow-sm"
+            style={{
+                position: "sticky",
+                top: "0",
+                zIndex: "1000",
+            }}
+        >
             <div className="container d-flex align-items-center justify-content-between py-2">
                 <div className="d-flex align-items-center">
                     <h1 className="m-0" style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
@@ -30,27 +44,27 @@ const Header = () => {
 
                 {/* Navigation Links */}
                 <nav className="d-flex align-items-center">
-                    <a href="/" className="text-dark mx-3 text-decoration-none" style={{ fontWeight: "500" }}>
+                    <NavLink to="/" className={`mx-3 text-decoration-none ${getLinkClass("/")}`}>
                         Home
-                    </a>
-                    <a href="/about" className="text-muted mx-3 text-decoration-none">
+                    </NavLink>
+                    <NavLink to="/about" className={`mx-3 text-decoration-none ${getLinkClass("/about")}`}>
                         About
-                    </a>
-                    <a href="/contact" className="text-muted mx-3 text-decoration-none">
+                    </NavLink>
+                    <NavLink to="/contact" className={`mx-3 text-decoration-none ${getLinkClass("/contact")}`}>
                         Contact Us
-                    </a>
-                    <a href="/blog" className="text-muted mx-3 text-decoration-none">
+                    </NavLink>
+                    <NavLink to="/blog" className={`mx-3 text-decoration-none ${getLinkClass("/blog")}`}>
                         Blog
-                    </a>
+                    </NavLink>
                 </nav>
 
                 {/* Icons */}
                 <div className="d-flex align-items-center">
                     <FaHeart className="mx-3 text-dark" size={20} />
                     <FaShoppingCart className="mx-3 text-dark" size={20} />
-                    <a href="/profile">
+                    <NavLink to="/profile">
                         <FaUser className="mx-3 text-dark" size={20} />
-                    </a>
+                    </NavLink>
                 </div>
             </div>
         </header>
