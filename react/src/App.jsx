@@ -14,6 +14,7 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginSuccess from './Pages/LoginSuccess';
+import DashboardApp from './Dashboard/DashboardApp.jsx';
 
 function App() {
   // React.useEffect(() => {
@@ -26,14 +27,16 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:categoryName" element={<Products category="phones" />} />
+        <Route path="/products/:categoryName" element={<Products category="categoryName" />} />
         <Route path="/product-details" element={<ProductDetails />} />
+        <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/dashboard" element={<DashboardApp />} />
         <Route path="/#" element={<LoginSuccess />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="*" element={<NotFound />} />
