@@ -1,17 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import Iphone14ProMax from "../assets/img/Iphone14ProMax.png"; // Adjust the path as necessary
-import ThreeDScene from "../Pages/ThreeDScene"; // Adjust the path as necessary
+import Iphone14ProMax from "../assets/img/Iphone14ProMax.png"; // Adjust the path as necessary
+import ProductCard from "../components/Cards/ProductCards"; // Adjust the path as necessary
 
 const Home = () => {
   return (
     <>
-
-      <div>
-        <h1 style={{ textAlign: 'center', color: '#fff' }}>3D Rendering Example</h1>
-        <ThreeDScene />
-      </div>
-      {/* <section className="bg-dark text-white text-center py-5 hero-section d-flex flex-column align-items-center">
+      <section className="bg-dark text-white text-center py-5 hero-section d-flex flex-column align-items-center">
           <div className="container" style={{ width: '50%', maxWidth: '600px' }}>
             <p className="text-uppercase fw-bold mb-2 hero-tagline">Pro.Beyond.</p>
             <h1 className="display-3 fw-bold hero-title">iPhone 14 Pro</h1>
@@ -34,25 +29,9 @@ const Home = () => {
       <section className="py-5">
         <div className="container">
           <h2 className="text-center mb-4">Featured iPhones</h2>
-          <div className="row g-4">
+          <div className="row g-4 d-flex justify-content-center">
             {[1, 2, 3].map((id) => (
-              <div className="col-md-4 d-flex flex-column align-items-center" key={id}>
-                <div className="card h-100 border-0 shadow-sm">
-                  <img
-                    src="https://via.placeholder.com/300x200"
-                    className="card-img-top"
-                    alt={`iPhone ${id}`}
-                    style={{ width: "100%", height: "200px", objectFit: "cover" }}
-                  />
-                  <div className="card-body text-center">
-                    <h5 className="card-title">iPhone {14 + id} Pro</h5>
-                    <p className="card-text text-muted">$999</p>
-                    <a href="/product" className="btn btn-outline-dark w-100">
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <ProductCard />
             ))}
           </div>
         </div>
@@ -111,7 +90,7 @@ const Home = () => {
           <p className="mb-1">&copy; 2025 iPhone Store. All rights reserved.</p>
           <small>Made with ❤️ by Amar</small>
         </div>
-      </footer> */}
+      </footer>
     </>
   );
 };

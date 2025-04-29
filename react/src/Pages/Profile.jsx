@@ -61,6 +61,7 @@ const Profile = () => {
                 throw error;
             }
             alert('You have been logged out.');
+            localStorage.removeItem('userEmail'); // Clear the user email from localStorage
             setProfile(null); // Clear the profile state
             navigate('/signin'); // Redirect to Sign-In page after logout
         } catch (error) {

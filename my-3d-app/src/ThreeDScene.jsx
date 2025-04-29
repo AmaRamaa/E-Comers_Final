@@ -12,15 +12,15 @@ function Model() {
     });
 
     // const gltf = useLoader(GLTFLoader, 'https://modelviewer.dev/shared-assets/models/Astronaut.glb');
-    console.log('This is the 3D model', gltf);
-    React.useEffect(() => {
-        gltf.scene.traverse((child) => {
-            if (child.isMesh) {
-                child.material.transparent = false; // Ensure material is not transparent
-                child.material.opacity = 1; // Set full opacity
-            }
-        });
-    }, [gltf]);
+    // console.log('This is the 3D model', gltf);
+    // React.useEffect(() => {
+    //     gltf.scene.traverse((child) => {
+    //         if (child.isMesh) {
+    //             child.material.transparent = false; // Ensure material is not transparent
+    //             child.material.opacity = 1; // Set full opacity
+    //         }
+    //     });
+    // }, [gltf]);
     
     return <primitive object={gltf.scene} scale={5} />;
 }
@@ -33,16 +33,16 @@ function Model2() {
 
 const ThreeDScene = () => {
     return (
-        <div style={{ height: '100vh', background: 'white' }}>
+        <div style={{ height: '100vh', background: 'white' , width: '100vw'}}>
             <h1>testing</h1>
-            <div style={{ height: '100%' }}>
+            <div style={{ height: '100%' , width: '100%'}}>
                 <Canvas camera={{ position: [0, 0, 2] }}>
                     <Suspense fallback={<Html><span>Loading 3D Model...</span></Html>}>
                         <Model />
-                        {/* <Model2 /> */}
-                        {/* <mesh>
+                        {/* <Model2 />
+                        <mesh>
                             <boxGeometry args={[1, 1, 1]} />
-                            <meshStandardMaterial color="orange" />
+                            <meshStandardMaterial color="red" />
                         </mesh> */}
                     </Suspense>
                     <OrbitControls />

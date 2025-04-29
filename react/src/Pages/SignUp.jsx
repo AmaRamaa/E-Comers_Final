@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +8,7 @@ import './SignUp.css';
 
 const SignUp = () => {
     const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -48,9 +49,8 @@ const SignUp = () => {
         }
 
         showAlert('Sign-up successful!', 'success');
-
         setTimeout(() => {
-            window.location.href = '/signin';
+            navigate('/signin');
         }, 1000);
     };
 
