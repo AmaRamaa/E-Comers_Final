@@ -1,30 +1,45 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+// import Iphone14ProMax from "../assets/img/Iphone14ProMax.png"; // Adjust the path as necessary
+import ThreeDScene from "../Pages/ThreeDScene"; // Adjust the path as necessary
 
 const Home = () => {
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="bg-light text-center py-5">
-        <div className="container">
-          <h1 className="display-4 fw-bold">iPhones That Redefine Premium</h1>
-          <p className="lead">Explore the latest iPhones at unbeatable prices.</p>
-          <a href="/shop" className="btn btn-dark px-4 py-2 mt-3">
-            Shop Now
-          </a>
-        </div>
-      </section>
+    <>
 
-      {/* Featured Products */}
+      <div>
+        <h1 style={{ textAlign: 'center', color: '#fff' }}>3D Rendering Example</h1>
+        <ThreeDScene />
+      </div>
+      {/* <section className="bg-dark text-white text-center py-5 hero-section d-flex flex-column align-items-center">
+          <div className="container" style={{ width: '50%', maxWidth: '600px' }}>
+            <p className="text-uppercase fw-bold mb-2 hero-tagline">Pro.Beyond.</p>
+            <h1 className="display-3 fw-bold hero-title">iPhone 14 Pro</h1>
+            <p className="lead hero-description">
+          Created to change everything for the better. For everyone.
+            </p>
+            <a href="/shop" className="btn btn-light px-4 py-2 mt-3 hero-button">
+          Shop Now
+            </a>
+          </div>
+          <div className="hero-image-wrapper mt-4 d-flex justify-content-center">
+            <img
+          src={Iphone14ProMax}
+          alt="iphone 14 pro max"
+          className="img-fluid hero-image"
+            />
+          </div>
+        </section>
+
       <section className="py-5">
         <div className="container">
           <h2 className="text-center mb-4">Featured iPhones</h2>
           <div className="row g-4">
             {[1, 2, 3].map((id) => (
-              <div className="col-md-4" key={id}>
+              <div className="col-md-4 d-flex flex-column align-items-center" key={id}>
                 <div className="card h-100 border-0 shadow-sm">
                   <img
-                    src="placeholder.jpg"
+                    src="https://via.placeholder.com/300x200"
                     className="card-img-top"
                     alt={`iPhone ${id}`}
                     style={{ width: "100%", height: "200px", objectFit: "cover" }}
@@ -43,8 +58,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Banner */}
-      <section className="py-5 bg-dark text-white text-center">
+      <section className="py-5 bg-dark text-white text-center d-flex flex-column align-items-center">
         <div className="container">
           <h2 className="fw-bold">Limited Time Offer</h2>
           <p className="mb-4">Get up to 20% off on select models.</p>
@@ -54,22 +68,21 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories */}
       <section className="py-5">
         <div className="container">
           <h2 className="text-center mb-4">Shop by Category</h2>
           <div className="row text-center g-4">
-            <div className="col-md-4">
+            <div className="col-md-4 d-flex flex-column align-items-center">
               <div className="p-4 border rounded">
                 <h5>iPhone 14 Series</h5>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 d-flex flex-column align-items-center">
               <div className="p-4 border rounded">
                 <h5>iPhone 13 Series</h5>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 d-flex flex-column align-items-center">
               <div className="p-4 border rounded">
                 <h5>Accessories</h5>
               </div>
@@ -78,7 +91,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Newsletter Signup */}
       <section className="bg-light py-5">
         <div className="container text-center">
           <h3>Stay Updated</h3>
@@ -94,14 +106,13 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-dark text-white text-center py-4 mt-5">
         <div className="container">
           <p className="mb-1">&copy; 2025 iPhone Store. All rights reserved.</p>
           <small>Made with ❤️ by Amar</small>
         </div>
-      </footer>
-    </div>
+      </footer> */}
+    </>
   );
 };
 

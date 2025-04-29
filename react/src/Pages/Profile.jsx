@@ -78,40 +78,35 @@ const Profile = () => {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="card shadow">
-                <div className="card-header bg-primary text-white">
-                    <h1 className="text-center">{profile?.name}</h1>
-                </div>
+        <div className="container mt-5" style={{ maxWidth: '600px' }}>
+            <h1 className="text-center mb-4" style={{ fontSize: '28px', fontWeight: 'bold' }}>
+                Welcome, {profile?.name || 'User'}!
+            </h1>
+            <div className="card mb-4">
                 <div className="card-body">
-                    {profile ? (
-                        <div className="text-center">
-                            <p><strong>User ID:</strong> {profile?.id}</p>
-                            <p>
-                                <strong>Email:</strong> {profile?.email}{' '}
-                                {profile?.emailVerified === 'Yes' && (
-                                    <span className="text-success">&#10003;</span>
-                                )}
-                            </p>
-                            <p>
-                                <strong>Phone:</strong> {profile?.phone}{' '}
-                                {profile?.phoneVerified === 'Yes' && (
-                                    <span className="text-success">&#10003;</span>
-                                )}
-                            </p>
-
-                            <button 
-                                className="btn btn-danger mt-3" 
-                                onClick={handleLogout}
-                            >
-                                Log Out
-                            </button>
-                        </div>
-                    ) : (
-                        <p className="text-center">No profile found.</p>
-                    )}
+                    <h5 className="card-title">Profile Information</h5>
+                    <p><strong>Email:</strong> {profile?.email || 'N/A'}</p>
+                    <p><strong>Phone:</strong> {profile?.phone || 'N/A'}</p>
+                    <p><strong>Username:</strong> {profile?.name || 'N/A'}</p>
                 </div>
             </div>
+            <div className="card mb-4">
+                <div className="card-body">
+                    <h5 className="card-title">Shopping Cart</h5>
+                    <ul className="list-group">
+                        <li className="list-group-item">
+                            <strong>Item Name</strong> - $Price x Quantity
+                        </li>
+                        {/* Repeat for each item */}
+                    </ul>
+                    <p>Your shopping cart is empty.</p>
+                </div>
+            </div>
+            <button 
+                className="btn btn-danger w-100" 
+                onClick={handleLogout}>
+                Sign Out
+            </button>
         </div>
     );
 };
