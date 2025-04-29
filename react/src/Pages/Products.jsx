@@ -35,6 +35,11 @@ function Products() {
     console.log('See More clicked!');
     console.log('Product Id:', productId);
     window.location.href = `/product-details/${productId}`;
+    const productInfo = products.find((product) => product.id === productId);
+    if (productInfo) {
+      localStorage.setItem('selectedProduct', JSON.stringify(productInfo));
+    }
+    
   };
 
   return (

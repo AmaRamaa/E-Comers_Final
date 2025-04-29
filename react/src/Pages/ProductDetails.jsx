@@ -1,29 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState("purple");
-  const [selectedStorage, setSelectedStorage] = useState("1TB");
+  useParams(); // Get the product ID from the URL
+  const [product, setProduct] = useState({
+    name: "",
+    brand: "",
+    price: 0,
+    originalPrice: 0,
+    colors: [],
+    storages: [],
+    screenSize: "",
+    cpu: "",
+    mainCamera: "",
+    frontCamera: "",
+    battery: "",
+    delivery: "",
+    stock: "",
+    guarantee: "",
+  });
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedStorage, setSelectedStorage] = useState("");
 
-  const colors = ["purple", "black", "silver", "gold", "red"];
-  const storages = ["128GB", "256GB", "512GB", "1TB"];
-
+  useEffect(() => {
+    // Fetch product from localStorage
+    const storedProduct = localStorage.getItem("selectedProduct");
+    if (storedProduct) {
+      setProduct(JSON.parse(storedProduct));
+    }
+  }, []);
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <nav>
-        <p>
-          Home &gt; Catalog &gt; Smartphones &gt; Apple &gt; iPhone 14 Pro Max
-        </p>
-      </nav>
+
       <div style={{ display: "flex", gap: "20px" }}>
         {/* Product Images */}
         <div>
           <img
             src={`/${selectedColor}-iphone.png`}
-            alt="iPhone"
+            alt={product.name}
             style={{ width: "300px", borderRadius: "10px" }}
           />
-          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-            {colors.map((color) => (
+          {/* <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            {product.colors.map((color) => (
               <img
                 key={color}
                 src={`/${color}-iphone-thumbnail.png`}
@@ -38,18 +56,19 @@ function ProductDetails() {
                 onClick={() => setSelectedColor(color)}
               />
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Product Details */}
         <div>
-          <h1>Apple iPhone 14 Pro Max</h1>
+          <h1>{product.name}</h1>
           <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-            $1399 <span style={{ textDecoration: "line-through" }}>$1499</span>
+            ${product.price}{" "}
+            <span style={{ textDecoration: "line-through" }}>${product.originalPrice}</span>
           </p>
           <p>Select color:</p>
           <div style={{ display: "flex", gap: "10px" }}>
-            {colors.map((color) => (
+            {/* {product.colors.map((color) => (
               <button
                 key={color}
                 style={{
@@ -62,11 +81,11 @@ function ProductDetails() {
                 }}
                 onClick={() => setSelectedColor(color)}
               ></button>
-            ))}
+            ))} */}
           </div>
           <p>Select storage:</p>
-          <div style={{ display: "flex", gap: "10px" }}>
-            {storages.map((storage) => (
+          {/* <div style={{ display: "flex", gap: "10px" }}>
+            {product.storages.map((storage) => (
               <button
                 key={storage}
                 style={{
@@ -79,26 +98,26 @@ function ProductDetails() {
                 {storage}
               </button>
             ))}
-          </div>
+          </div> */}
           <div style={{ marginTop: "20px" }}>
-            <p>Screen size: 6.7"</p>
-            <p>CPU: Apple A16 Bionic</p>
-            <p>Main camera: 48-12-12 MP</p>
-            <p>Front camera: 12 MP</p>
-            <p>Battery capacity: 4323 mAh</p>
+            <p>Screen size: {product.screenSize}</p>
+            <p>CPU: {product.cpu}</p>
+            <p>Main camera: {product.mainCamera}</p>
+            <p>Front camera: {product.frontCamera}</p>
+            <p>Battery capacity: {product.battery}</p>
           </div>
           <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
             <button style={{ padding: "10px 20px", backgroundColor: "gray", color: "white" }}>
-              Add to Wishlist
-            </button>
-            <button style={{ padding: "10px 20px", backgroundColor: "black", color: "white" }}>
               Add to Cart
+            </button>
+            <button style={{ padding: "10px 20px", backgroundColor: "gray", color: "white" }}>
+              Add to Wishlist
             </button>
           </div>
           <div style={{ marginTop: "20px" }}>
-            <p>Free Delivery: 1-2 days</p>
-            <p>In Stock: Today</p>
-            <p>Guaranteed: 1 year</p>
+            <p>Free Delivery: {product.delivery}</p>
+            <p>In Stock: {product.stock}</p>
+            <p>Guaranteed: {product.guarantee}</p>
           </div>
         </div>
       </div>
