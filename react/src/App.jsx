@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginSuccess from './Pages/LoginSuccess';
 import DashboardApp from './Dashboard/DashboardApp.jsx';
 import { Breadcrumb } from 'react-bootstrap';
+import Footer from './components/Footer/Footer.jsx';
 
 function App() {
   // React.useEffect(() => {
@@ -73,7 +74,7 @@ function App() {
         <Route path="/not-found" element={<NotFound />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-        
+      <Footer />
     </Router>
   );
 }

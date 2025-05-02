@@ -39,27 +39,29 @@ function Products() {
     if (productInfo) {
       localStorage.setItem('selectedProduct', JSON.stringify(productInfo));
     }
-    
   };
 
   return (
-    <div>
-      <h1>Products Page</h1>
-      {categoryName && <p>Category: {categoryName}</p>}
+    <div className="container mt-5  py-4">
+      <h1 className="text-center mb-4">Products Page</h1>
+      {categoryName && <p className="text-center text-muted">Category: <strong>{categoryName}</strong></p>}
 
       {products.length > 0 ? (
-        products.map((product) => (
-          <ProductCard
-            SeeMore={() => SeeMoreRouting(product.id)} // Pass a function reference
-            image={product.images?.[0] || 'https://th.bing.com/th/id/OIP.fLz_nyWcsH8YBnUzKD8eCAHaFl?rs=1&pid=ImgDetMain'}
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            onBuyNow={() => console.log('Buy Now clicked for', product.name)}
-          />
-        ))
+        <div className="row">
+          {products.map((product) => (
+            <div className="col-md-4 mb-4" key={product.id}>
+              <ProductCard
+                SeeMore={() => SeeMoreRouting(product.id)}
+                image={product.images?.[0] || 'https://th.bing.com/th/id/OIP.fLz_nyWcsH8YBnUzKD8eCAHaFl?rs=1&pid=ImgDetMain'}
+                name={product.name}
+                price={product.price}
+                onBuyNow={() => console.log('Buy Now clicked for', product.name)}
+              />
+            </div>
+          ))}
+        </div>
       ) : (
-        <p>No products found for this category.</p>
+        <p className="text-center text-danger">No products found for this category.</p>
       )}
     </div>
   );

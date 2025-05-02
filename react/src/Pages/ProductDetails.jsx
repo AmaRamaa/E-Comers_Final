@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function ProductDetails() {
-  useParams(); // Get the product ID from the URL
+  const { id } = useParams(); // Get the product ID from the URL
   const [product, setProduct] = useState({
     name: "",
     brand: "",
@@ -19,6 +19,8 @@ function ProductDetails() {
     stock: "",
     guarantee: "",
   });
+
+  
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedStorage, setSelectedStorage] = useState("");
 
@@ -26,99 +28,118 @@ function ProductDetails() {
     // Fetch product from localStorage
     const storedProduct = localStorage.getItem("selectedProduct");
     if (storedProduct) {
-      setProduct(JSON.parse(storedProduct));
+      const parsedProduct = JSON.parse(storedProduct);
+      if (parsedProduct && parsedProduct.id === id) {
+        console.log(parsedProduct.colors, parsedProduct.storages);
+        setSelectedColor(parsedProduct.colors?.[0] || ""); // Default to first color if available
+        setSelectedStorage(parsedProduct.storages?.[0] || ""); // Default to first storage if available
+        setProduct({
+          ...parsedProduct,
+          colors: ["red", "blue", "green"], // Default colors if empty
+          storages:["64GB", "128GB", "256GB"], // Default storages if empty
+        });
+      }
     }
-  }, []);
-  return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+  }, [id]);
+  
 
-      <div style={{ display: "flex", gap: "20px" }}>
+  const placeholderImage = "/placeholder-image.png"; // Path to your placeholder image
+
+  return (
+    <div className="container py-4">
+      <div className="row g-4">
         {/* Product Images */}
-        <div>
+        <div className="col-md-4 text-center">
           <img
-            src={`/${selectedColor}-iphone.png`}
-            alt={product.name}
-            style={{ width: "300px", borderRadius: "10px" }}
+            src={selectedColor ? `/${selectedColor}-iphone.png` : placeholderImage}
+            alt={product.name || "Product"}
+            className="img-fluid"
           />
-          {/* <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-            {product.colors.map((color) => (
-              <img
-                key={color}
-                src={`/${color}-iphone-thumbnail.png`}
-                alt={color}
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  border: selectedColor === color ? "2px solid black" : "none",
-                }}
-                onClick={() => setSelectedColor(color)}
-              />
-            ))}
-          </div> */}
         </div>
 
-        {/* Product Details */}
+          <div className="col-md-8">
+            <h1 className="h4 mb-3">{product.name || "Product Name"}</h1>
+            <p className="h5 text-primary mb-3">
+              ${product.price}{" "}
+              {product.originalPrice > product.price && (
+                <span className="text-muted text-decoration-line-through ms-2">
+            ${product.originalPrice}
+                </span>
+              )}
+            </p>
+
+            {/* Color Selection */}
+            <p className="fw-bold mb-2">Select color:</p>
+            <div className="d-flex gap-2 mb-4">
+              {Array.isArray(product.colors) &&
+                product.colors.map((color) => (
+            <button
+              key={color}
+              className={`btn rounded-circle p-0 border ${
+                selectedColor === color ? "border-primary" : "border-secondary"
+              }`}
+              style={{
+                backgroundColor: color,
+                width: "40px",
+                height: "40px",
+              }}
+              onClick={() => setSelectedColor(color)}
+            ></button>
+                ))}
+            </div>
+
+            {/* Storage Selection */}
+            <p className="fw-bold mb-2">Select storage:</p>
+            <div className="d-flex gap-2 mb-4">
+              {Array.isArray(product.storages) &&
+                product.storages.map((storage) => (
+            <button
+              key={storage}
+              className={`btn ${
+                selectedStorage === storage ? "btn-primary" : "btn-outline-secondary"
+              }`}
+              onClick={() => setSelectedStorage(storage)}
+            >
+              {storage}
+            </button>
+                ))}
+            </div>
+
+            <div className="mb-4">
+              <p>Screen size: {product.screenSize || "N/A"}</p>
+              <p>CPU: {product.cpu || "N/A"}</p>
+              <p>Main camera: {product.mainCamera || "N/A"}</p>
+              <p>Front camera: {product.frontCamera || "N/A"}</p>
+              <p>Battery capacity: {product.battery || "N/A"}</p>
+            </div>
+            <div className="d-flex gap-2 mb-4">
+              <button className="btn btn-primary">Add to Cart</button>
+              <button className="btn btn-secondary">Add to Wishlist</button>
+            </div>
+            <div>
+              <p>Free Delivery: {product.delivery || "N/A"}</p>
+              <p>In Stock: {product.stock || "N/A"}</p>
+              <p>Guaranteed: {product.guarantee || "N/A"}</p>
+            </div>
+          </div>
+              </div>
+
+      <div className="mt-5">
+        <h2 className="h5 mb-4">Details</h2>
+        <p>{product.description}</p>
         <div>
-          <h1>{product.name}</h1>
-          <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-            ${product.price}{" "}
-            <span style={{ textDecoration: "line-through" }}>${product.originalPrice}</span>
-          </p>
-          <p>Select color:</p>
-          <div style={{ display: "flex", gap: "10px" }}>
-            {/* {product.colors.map((color) => (
-              <button
-                key={color}
-                style={{
-                  backgroundColor: color,
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                  border: selectedColor === color ? "2px solid black" : "none",
-                  cursor: "pointer",
-                }}
-                onClick={() => setSelectedColor(color)}
-              ></button>
-            ))} */}
-          </div>
-          <p>Select storage:</p>
-          {/* <div style={{ display: "flex", gap: "10px" }}>
-            {product.storages.map((storage) => (
-              <button
-                key={storage}
-                style={{
-                  padding: "10px 20px",
-                  border: selectedStorage === storage ? "2px solid black" : "1px solid gray",
-                  cursor: "pointer",
-                }}
-                onClick={() => setSelectedStorage(storage)}
-              >
-                {storage}
-              </button>
-            ))}
-          </div> */}
-          <div style={{ marginTop: "20px" }}>
-            <p>Screen size: {product.screenSize}</p>
-            <p>CPU: {product.cpu}</p>
-            <p>Main camera: {product.mainCamera}</p>
-            <p>Front camera: {product.frontCamera}</p>
-            <p>Battery capacity: {product.battery}</p>
-          </div>
-          <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-            <button style={{ padding: "10px 20px", backgroundColor: "gray", color: "white" }}>
-              Add to Cart
-            </button>
-            <button style={{ padding: "10px 20px", backgroundColor: "gray", color: "white" }}>
-              Add to Wishlist
-            </button>
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <p>Free Delivery: {product.delivery}</p>
-            <p>In Stock: {product.stock}</p>
-            <p>Guaranteed: {product.guarantee}</p>
-          </div>
+          <h3 className="h6 mb-3">Screen</h3>
+          <p>Screen diagonal: {product.screenSize || "N/A"}</p>
+          <p>The screen resolution: {product.screenResolution || "N/A"}</p>
+          <p>The screen refresh rate: {product.screenRefreshRate || "N/A"}</p>
+          <p>The pixel density: {product.pixelDensity || "N/A"}</p>
+          <p>Screen type: {product.screenType || "N/A"}</p>
+          <p>Additionally: {product.additionalScreenFeatures?.join(", ") || "N/A"}</p>
+        </div>
+        <div className="mt-4">
+          <h3 className="h6 mb-3">CPU</h3>
+          <p>CPU: {product.cpu || "N/A"}</p>
+          <p>Number of cores: {product.cpuCores || "N/A"}</p>
         </div>
       </div>
     </div>
