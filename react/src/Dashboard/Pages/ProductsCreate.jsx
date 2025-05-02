@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardProduct from "../component/CardProduct.jsx";
 import { supabase } from "../../db/supabaseClient.js";
 
@@ -22,12 +22,26 @@ const ProductsCreate = () => {
         battery: "",
     });
 
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [storageOptions, setStorageOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const handleArrayInput = (e, key) => {
-        const values = Array.from(e.target.selectedOptions, (option) => option.value);
-        setProduct({ ...product, [key]: values });
-    };
+    useEffect(() => {
+        const fetchTags = async () => {
+            const { data, error } = await supabase.from("Tags").select("*").eq("id", 1);
+            if (error) {
+                console.error("Error fetching tags:", error);
+            } else if (data && data.length > 0) {
+                const row = data[0];
+                setCategories(Array.isArray(row.category) ? row.category : []);
+                setColors(Array.isArray(row.colors) ? row.colors : []);
+                setStorageOptions(Array.isArray(row.storage) ? row.storage : []);
+            }
+        };
+
+        fetchTags();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -102,44 +116,44 @@ const ProductsCreate = () => {
                                     style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
                                 >
                                     <option value="">Select a category</option>
-                                    <option value="phones">Phones</option>
-                                    <option value="computers">Computers</option>
-                                    <option value="smart watches">Smart Watches</option>
-                                    <option value="cameras">Cameras</option>
-                                    <option value="headphones">Headphones</option>
+                                    {categories.map((category) => (
+                                        <option key={category} value={category}>
+                                            {category}
+                                        </option>
+                                    ))}
                                 </select>
                             ) : key === "colors" || key === "storages" ? (
-                                <select
-                                    id={key}
-                                    multiple
-                                    value={product[key]}
-                                    onChange={(e) => handleArrayInput(e, key)}
-                                    style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
-                                >
-                                    {key === "colors" ? (
-                                        <>
-                                            <option value="red">Red</option>
-                                            <option value="blue">Blue</option>
-                                            <option value="green">Green</option>
-                                            <option value="black">Black</option>
-                                            <option value="white">White</option>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <option value="64gb">64GB</option>
-                                            <option value="128gb">128GB</option>
-                                            <option value="256gb">256GB</option>
-                                            <option value="512gb">512GB</option>
-                                        </>
-                                    )}
-                                </select>
+                                <div>
+                                    {(key === "colors" ? colors : storageOptions).map((item) => (
+                                        <div key={item}>
+                                            <input
+                                                type="checkbox"
+                                                id={`${key}-${item}`}
+                                                value={item}
+                                                checked={product[key].includes(item)}
+                                                onChange={(e) => {
+                                                    const values = product[key].includes(item)
+                                                        ? product[key].filter((i) => i !== item)
+                                                        : [...product[key], item];
+                                                    setProduct({ ...product, [key]: values });
+                                                }}
+                                            />
+                                            <label htmlFor={`${key}-${item}`}>{item}</label>
+                                        </div>
+                                    ))}
+                                </div>
                             ) : key === "images" ? (
                                 <input
                                     type="text"
                                     id={key}
                                     placeholder={`Comma separated ${key}`}
                                     value={product[key].join(", ").toLowerCase()}
-                                    onChange={(e) => handleArrayInput(e, key)}
+                                    onChange={(e) =>
+                                        setProduct({
+                                            ...product,
+                                            [key]: e.target.value.split(",").map((item) => item.trim()),
+                                        })
+                                    }
                                     style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
                                 />
                             ) : (

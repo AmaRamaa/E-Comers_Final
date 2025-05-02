@@ -1,8 +1,16 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Logo from "../../assets/svg/Logo.svg";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+
+    const location = useLocation();
+
+    if (location.pathname.startsWith('/dashboard')) {
+        return null; // Hide the header
+    }
+
     return (
         <footer className="bg-white text-black py-3">
             <div className="container">

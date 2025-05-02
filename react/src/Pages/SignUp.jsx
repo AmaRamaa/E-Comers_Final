@@ -19,7 +19,7 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, email, phone, password } = form;
-
+    
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email,
             password,
@@ -27,32 +27,33 @@ const SignUp = () => {
                 data: { name, phone }
             }
         });
-
+    
         if (signUpError) {
             showAlert(`Error signing up: ${signUpError.message}`, 'danger');
             return;
         }
-
+    
         const user = signUpData.user;
         if (!user) {
             showAlert('No user returned from signup.', 'danger');
             return;
         }
-
+    
         const { error: insertError } = await supabase
             .from('Users')
-            .insert([{ id: user.id, username: name, email, phone }]);
-
+            .insert([{ id: user.id, username: name, email, phone, adminlevel: 1 }]);
+    
         if (insertError) {
             showAlert(`Error saving user data: ${insertError.message}`, 'danger');
             return;
         }
-
+    
         showAlert('Sign-up successful!', 'success');
         setTimeout(() => {
             navigate('/signin');
         }, 1000);
     };
+    
 
     const onChange = (e) => {
         if (typeof e === 'string') {

@@ -16,7 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginSuccess from './Pages/LoginSuccess';
 import DashboardApp from './Dashboard/DashboardApp.jsx';
 import { Breadcrumb } from 'react-bootstrap';
-import Footer from './components/Footer/Footer.jsx';
+import Footer from './components/Footers/Footer.jsx';
+
+
 
 function App() {
   // React.useEffect(() => {
@@ -25,29 +27,6 @@ function App() {
   return (
     <Router>
       <Header />
-        {/* {(() => {
-          const navigate = useNavigate();
-          return (
-            <>
-            <Breadcrumb className="bg-light p-3 mb-0">
-              <Breadcrumb.Item onClick={() => navigate("/")}>Home</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/about")}>About</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/products")}>Products</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/product-details")}>Product Details</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/shopping-cart")}>Shopping Cart</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/contact")}>Contact</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/blog")}>Blog</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/profile")}>Profile</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/signin")}>Sign In</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/signup")}>Sign Up</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/dashboard")}>Dashboard</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/not-found")}>Not Found</Breadcrumb.Item>
-              <Breadcrumb.Item onClick={() => navigate("/#")}>Login Success</Breadcrumb.Item>
-            </Breadcrumb>
-            </>
-          );
-        })()} */}
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -70,6 +49,8 @@ function App() {
         <Route path="/dashboard/products-create" element={<DashboardApp page="ProductsCreate" />} />
         <Route path="/dashboard/products-table" element={<DashboardApp page="ProductsTable" />} />
         <Route path="/dashboard/tags" element={<DashboardApp page="Tags" />} />
+        <Route path="/dashboard/tags" element={<DashboardApp page="Tags" />} />
+        <Route path="/dashboard/products-edit" element={<DashboardApp page="ProductsEdit" />} />
         <Route path="/#" element={<LoginSuccess />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="*" element={<NotFound />} />

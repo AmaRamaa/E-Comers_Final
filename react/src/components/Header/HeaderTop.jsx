@@ -1,15 +1,78 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import Logo from "../../assets/svg/Logo.svg";
 
-const Header = () => {
-    const location = useLocation();
+const supabaseUrl = "https://aplcciebyfcylmibwidi.supabase.co";
+const supabaseKey =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwbGNjaWVieWZjeWxtaWJ3aWRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1OTU5MzcsImV4cCI6MjA2MTE3MTkzN30.sWAAVjItcOG-XIFmK0ZeZTa6-Rzy_6K61SZVNBjSoxs";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const getLinkClass = (path) => (
-        location.pathname === path ? "text-dark fw-bold" : "text-muted"
-    );
+const Header = () => {
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const {
+                    data: { session },
+                    error,
+                } = await supabase.auth.getSession();
+                if (error) {
+                    throw error;
+                }
+
+                if (!session?.user) {
+                    navigate("/signin");
+                    return;
+                }
+
+                const { email } = session.user;
+
+                const { data: users, error: fetchError } = await supabase
+                    .from("Users")
+                    .select("adminlevel, username")
+                    .eq("email", email)
+                    .single();
+
+                if (fetchError || !users) {
+                    console.error("Error fetching user or user not found:", fetchError?.message);
+                    navigate("/signin");
+                    return;
+                }
+
+                setUser({
+                    name: users.username || "User",
+                    email: email,
+                    adminLevel: users.adminlevel,
+                });
+            } catch (error) {
+                console.error("Error fetching user:", error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, [navigate]);
+
+    const getLinkClass = (path) =>
+        location.pathname === path ? "text-dark fw-bold" : "text-muted";
+
+    if (isLoading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center p-3 bg-light">
+                <div className="spinner-border text-success" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <header
@@ -27,7 +90,6 @@ const Header = () => {
                     </h1>
                 </div>
 
-                {/* Search Bar */}
                 <div className="flex-grow-1 mx-3">
                     <input
                         type="text"
@@ -42,7 +104,6 @@ const Header = () => {
                     />
                 </div>
 
-                {/* Navigation Links */}
                 <nav className="d-flex align-items-center">
                     <NavLink to="/" className={`mx-3 text-decoration-none ${getLinkClass("/")}`}>
                         Home
@@ -58,7 +119,6 @@ const Header = () => {
                     </NavLink>
                 </nav>
 
-                {/* Icons */}
                 <div className="d-flex align-items-center">
                     <FaHeart className="mx-3 text-dark" size={20} />
                     <FaShoppingCart className="mx-3 text-dark" size={20} />
@@ -66,6 +126,16 @@ const Header = () => {
                         <FaUser className="mx-3 text-dark" size={20} />
                     </NavLink>
                 </div>
+
+                {/* Admin Button */}
+                {user?.adminLevel >= 4 && (
+                    <button
+                        className="btn btn-primary ms-3"
+                        onClick={() => navigate("/dashboard")}
+                    >
+                        Admin Panel
+                    </button>
+                )}
             </div>
         </header>
     );

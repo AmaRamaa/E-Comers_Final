@@ -29,6 +29,7 @@ function ProductDetails() {
     const storedProduct = localStorage.getItem("selectedProduct");
     if (storedProduct) {
       const parsedProduct = JSON.parse(storedProduct);
+      console.log(parsedProduct)
       if (parsedProduct && parsedProduct.id === id) {
         console.log(parsedProduct.colors, parsedProduct.storages);
         setSelectedColor(parsedProduct.colors?.[0] || ""); // Default to first color if available

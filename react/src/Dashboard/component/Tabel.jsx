@@ -57,10 +57,14 @@ const Table = ({ columns, data }) => {
                                 >
                                     {column.type === 'image' ? (
                                         <img
-                                            src={row[column.accessor] || 'https://via.placeholder.com/100'}
+                                            src={
+                                                Array.isArray(row[column.accessor]) && row[column.accessor].length > 0
+                                                    ? row[column.accessor][0]
+                                                    : 'https://dummyimage.com/100x100/cccccc/ffffff&text=No+Image'
+                                            }
                                             alt={column.header}
                                             style={{ maxWidth: '25px', maxHeight: '25px' }}
-                                            onError={(e) => (e.target.src = 'https://via.placeholder.com/100')}
+                                            onError={(e) => (e.target.src = 'https://dummyimage.com/100x100/cccccc/ffffff&text=No+Image')}
                                         />
                                     ) : column.type === 'boolean' && column.accessor === 'isActive' ? (
                                         row[column.accessor] ? '✔️' : '❌'

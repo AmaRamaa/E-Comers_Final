@@ -1,10 +1,9 @@
 function Home() {
-    return (
-      <div>
-        <h1>Home</h1>
-        <p>Welcome to the Home Page!</p>
-      </div>
-    );
-  }
-  
+  return (
+    <div className="text-center mt-5">
+    <h1 className="display-4 text-danger">Error 404</h1>
+    <p className="lead">Page Not Found</p>
+    </div>
+  );
+}
   export default Home;
