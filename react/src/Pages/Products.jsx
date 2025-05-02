@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '../db/supabaseClient';
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/Cards/ProductCards';
@@ -31,10 +31,12 @@ function Products() {
     }
   }, [categoryName]);
 
+  const navigate = useNavigate();
+
   const SeeMoreRouting = (productId) => {
     console.log('See More clicked!');
-    console.log('Product Id:', productId);
-    window.location.href = `/product-details/${productId}`;
+    console.log('Product Id:', productId);  
+    navigate(`/product-details/${productId}`);
     const productInfo = products.find((product) => product.id === productId);
     if (productInfo) {
       localStorage.setItem('selectedProduct', JSON.stringify(productInfo));

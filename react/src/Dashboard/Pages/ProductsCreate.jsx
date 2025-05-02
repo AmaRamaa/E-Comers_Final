@@ -78,6 +78,7 @@ const ProductsCreate = () => {
                     frontCamera: "",
                     battery: "",
                 });
+                
             }
         } catch (err) {
             console.error("Unexpected error:", err);
