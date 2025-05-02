@@ -1,29 +1,14 @@
-import React from 'react';
-import productData from '../../data/Products/Products.js'; // Ensure the path is correct
-import CardProduct from '../CardProduct.jsx';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Products2 = () => {
-    const data = productData;
+    const navigate = useNavigate();
 
-    return (
-        <>
-            <h1>Products</h1>
-            <div style={styles.container}>
-                {data.map((product, index) => (
-                    <CardProduct key={index} product={product} />
-                ))}
-            </div>
-        </>
-    );
-};
+    useEffect(() => {
+        navigate('/products'); // Use the correct route path
+    }, [navigate]);
 
-const styles = {
-    container: {
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "16px",
-    },
+    return null; // No UI is rendered since it redirects immediately
 };
 
 export default Products2;

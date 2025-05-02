@@ -61,6 +61,14 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<DashboardApp />} />
+        <Route path="/dashboard/overview" element={<DashboardApp page="Overview" />} />
+        <Route path="/dashboard/analytics" element={<DashboardApp page="Analytics" />} />
+        <Route path="/dashboard/inquiries" element={<DashboardApp page="Inquiries" />} />
+        <Route path="/dashboard/members" element={<DashboardApp page="Members" />} />
+        <Route path="/dashboard/products-store" element={<DashboardApp page="ProductsStore" />} />
+        <Route path="/dashboard/products-create" element={<DashboardApp page="ProductsCreate" />} />
+        <Route path="/dashboard/products-table" element={<DashboardApp page="ProductsTable" />} />
+        <Route path="/dashboard/tags" element={<DashboardApp page="Tags" />} />
         <Route path="/#" element={<LoginSuccess />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="*" element={<NotFound />} />

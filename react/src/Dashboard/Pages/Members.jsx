@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../component/Tabel.jsx';
-import membersData from '../data/Users/Users.js'; // Corrected the path
+// import membersData from '../data/Users/Users.js'; // Corrected the path
 
 const Members = () => {
     const columns = [
@@ -16,7 +16,8 @@ const Members = () => {
     return (
         <>
             <h1>Members</h1>
-            <Table columns={columns} data={membersData} />
+            {/* <Table columns={columns} data={membersData} /> */}
+            PLACEHOLDER
         </>
     );
 };

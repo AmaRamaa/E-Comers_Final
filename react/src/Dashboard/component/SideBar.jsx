@@ -1,13 +1,32 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = ({ onItemSelect }) => {
+    const navigate = useNavigate();
+
     const handleItemClick = (item) => {
         localStorage.setItem('activeSidebarItem', item);
         const items = document.querySelectorAll('.sidebar-item, .sidebar-item-mod');
         items.forEach((el) => el.classList.remove('active'));
         const clickedItem = Array.from(items).find((el) => el.textContent === item);
         if (clickedItem) clickedItem.classList.add('active');
+
+        // Map item names to routes
+        const routeMap = {
+            Overview: '/dashboard/overview',
+            Analytics: '/dashboard/analytics',
+            Inquiries: '/dashboard/inquiries',
+            Members: '/dashboard/members',
+            ProductsStore: '/dashboard/products-store',
+            ProductsCreate: '/dashboard/products-create',
+            ProductsTable: '/dashboard/products-table',
+        };
+
+        if (routeMap[item]) {
+            navigate(routeMap[item]); // Navigate to the corresponding route
+        }
+
         onItemSelect(item); // Notify the parent container about the selected item
     };
 

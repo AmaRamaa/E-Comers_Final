@@ -6,7 +6,7 @@ import SubNav from './SubNav';
 const DesktopHeader = () => {
     const location = useLocation();
 
-    if (location.pathname === '/dashboard') {
+    if (location.pathname.startsWith('/dashboard')) {
         return null; // Hide the header
     }
 
