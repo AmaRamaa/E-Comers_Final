@@ -5,7 +5,26 @@ const ProductsEdit = () => {
     const [products, setProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [storageOptions, setStorageOptions] = useState([]);
 
+
+    useEffect(() => {
+            const fetchTags = async () => {
+                const { data, error } = await supabase.from("Tags").select("*").eq("id", 1);
+                if (error) {
+                    console.error("Error fetching tags:", error);
+                } else if (data && data.length > 0) {
+                    const row = data[0];
+                    setCategories(Array.isArray(row.category) ? row.category : []);
+                    setColors(Array.isArray(row.colors) ? row.colors : []);
+                    setStorageOptions(Array.isArray(row.storage) ? row.storage : []);
+                }
+            };
+    
+            fetchTags();
+        }, []);
 
 
     useEffect(() => {
@@ -157,16 +176,22 @@ const ProductsEdit = () => {
                                 className="form-control"
                             />
                         </div>
-                        <div className="form-group">
-                            <label>Category:</label>
-                            <input
-                                type="text"
-                                name="category"
-                                value={editingProduct.category}
-                                onChange={handleInputChange}
-                                className="form-control"
-                            />
-                        </div>
+                    <div className="form-group">
+                        <label>Category:</label>
+                        <select
+                            name="category"
+                            value={editingProduct.category}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        >
+                            <option value="">Select a category</option>
+                            {categories.map((category) => (
+                                <option key={category} value={category}>
+                                    {category}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                         <div className="form-group">
                             <label>Price:</label>
                             <input

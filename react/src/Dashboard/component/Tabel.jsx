@@ -68,6 +68,18 @@ const Table = ({ columns, data }) => {
                                         />
                                     ) : column.type === 'boolean' && column.accessor === 'isActive' ? (
                                         row[column.accessor] ? '✔️' : '❌'
+                                    ) : column.accessor === 'adminlevel' ? (
+                                        row[column.accessor] === 1
+                                            ? 'Client'
+                                            : row[column.accessor] === 2
+                                            ? 'Intern'
+                                            : row[column.accessor] === 3
+                                            ? 'Moderator'
+                                            : row[column.accessor] === 4
+                                            ? 'Manager'
+                                            : row[column.accessor] === 5
+                                            ? 'Admin'
+                                            : 'Unknown Admin Level'
                                     ) : (
                                         row[column.accessor]
                                     )}
